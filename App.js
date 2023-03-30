@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import LoginProvider, { useLogin } from "./src/context/LoginProvider";
+import MyDrawer from "./src/screens/Drawer";
+import SignInScreen from "./src/screens/SignInScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useAuth } from "./src/context/useAuth";
+import UserContext from "./src/context/UserContext";
 
 export default function App() {
+  const Stack = createStackNavigator();
+  // const [user, setUser] = useState();
+  // const [userId, setUserId] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const { user } = useAuth();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <NavigationContainer>
+        {isLoggedIn ? (
+          <MyDrawer />
+        ) : (
+          <>
+            <Stack.Navigator>
+              <Stack.Screen name="SignInScreen" component={SignInScreen} />
+              <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+            </Stack.Navigator>
+          </>
+        )}
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -9,6 +9,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+janith aiya/
+components/
 
 # macOS
 .DS_Store

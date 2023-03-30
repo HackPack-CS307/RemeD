@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "deliveroo",
-    "slug": "deliveroo",
+    "name": "RemeD",
+    "slug": "RemeD",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/splash2.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
