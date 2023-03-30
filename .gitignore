@@ -10,7 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 janith aiya/
-components/
+component/
 
 # macOS
 .DS_Store
