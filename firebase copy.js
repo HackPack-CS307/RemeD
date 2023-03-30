@@ -7,12 +7,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCwQ3kDX8g54eUpBnebFj4a-MSrc4pM3-0",
-  authDomain: "remed-82140.firebaseapp.com",
-  projectId: "remed-82140",
-  storageBucket: "remed-82140.appspot.com",
-  messagingSenderId: "50476036108",
-  appId: "1:50476036108:web:983074577682d720293e29",
+  apiKey: "your_apiKey",
+  authDomain: "your domain",
+  projectId: "Your project id",
+  storageBucket: "",
+  messagingSenderId: "sender id",
+  appId: "your app id",
 };
 
 // Initialize Firebase

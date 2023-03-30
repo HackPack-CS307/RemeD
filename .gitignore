@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 janith aiya/
 component/
+firebase.js
 
 # macOS
 .DS_Store
