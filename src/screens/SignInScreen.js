@@ -58,7 +58,6 @@ const SignInScreen = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
         if (errorCode === "auth/wrong-password") {
           var toastMessage1 = "Wrong user credentials. ";
           var toastMessage2 = "Please check again!";
@@ -94,9 +93,9 @@ const SignInScreen = () => {
 
   return (
     <>
-      <SafeAreaView className="flex-1">
-        <StatusBar hidden={false} />
-        <ImageBackground source={BgImg} className="h-[100%] ">
+      <ImageBackground source={BgImg} className="h-[100%] ">
+        <SafeAreaView className="flex-1">
+          <StatusBar hidden={false} />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
             <LogoComponent />
             <View>
@@ -132,9 +131,9 @@ const SignInScreen = () => {
               />
             </View>
           </ScrollView>
-        </ImageBackground>
-      </SafeAreaView>
-      <Toast />
+        </SafeAreaView>
+        <Toast />
+      </ImageBackground>
     </>
   );
 };
