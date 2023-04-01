@@ -12,22 +12,24 @@ import BackToLanding from "../components/BackToLanding";
 
 const MedicineTracker = ({ navigation }) => {
   return (
-    <SafeAreaView className="flex-1 ">
-      <StatusBar hidden={false} />
+    <>
       <ImageBackground source={BgImg} className="h-[100%] ">
-        <LogoComponent />
-        <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-          <View>
-            <Text>MedicineTracker</Text>
-          </View>
-          <BackToLanding
-            onPress={() => {
-              navigation.navigate("FindMedicine");
-            }}
-          />
-        </ScrollView>
+        <SafeAreaView className="flex-1 ">
+          <StatusBar hidden={false} />
+          <LogoComponent />
+          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+            <View>
+              <Text>MedicineTracker</Text>
+            </View>
+            <BackToLanding
+              onPress={() => {
+                navigation.navigate("FindMedicine");
+              }}
+            />
+          </ScrollView>
+        </SafeAreaView>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 

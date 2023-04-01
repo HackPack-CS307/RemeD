@@ -9,23 +9,25 @@ import LogoComponent from "../components/LogoComponent";
 
 const StarredPharmacies = ({ navigation }) => {
   return (
-    <SafeAreaView className="flex-1">
-      <StatusBar hidden={false} />
+    <>
       <ImageBackground source={BgImg} className="h-[100%] ">
-        <LogoComponent />
+        <SafeAreaView className="flex-1">
+          <StatusBar hidden={false} />
+          <LogoComponent />
 
-        <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-          <View className="pt-10">
-            <Text>StarredPharmacies</Text>
-          </View>
-          <BackToLanding
-            onPress={() => {
-              navigation.navigate("FindMedicine");
-            }}
-          />
-        </ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+            <View className="pt-10">
+              <Text>StarredPharmacies</Text>
+            </View>
+            <BackToLanding
+              onPress={() => {
+                navigation.navigate("FindMedicine");
+              }}
+            />
+          </ScrollView>
+        </SafeAreaView>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 

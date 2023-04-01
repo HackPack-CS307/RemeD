@@ -19,67 +19,73 @@ const Profile = ({ navigation }) => {
   const [gender, setGender] = useState("");
 
   return (
-    <SafeAreaView className="flex-1">
-      <StatusBar hidden={false} />
+    <>
       <ImageBackground source={BgImg} className="h-[100%] ">
-        <LogoComponent />
+        <SafeAreaView className="flex-1">
+          <StatusBar hidden={false} />
+          <LogoComponent />
 
-        <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-          <View className=" items-start">
-            <Text className="text-[#0d0d0e]  font-bold text-4xl">
-              Edit your profile
-            </Text>
-          </View>
-          <View className="items-center justify-center bg-slate-300 rounded-full w-[80px] h-[80px] m-auto my-3">
-            <Feather name="user" size={70} color="black" />
-          </View>
+          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+            <View className=" items-start">
+              <Text className="text-[#0d0d0e]  font-bold text-4xl">
+                Edit your profile
+              </Text>
+            </View>
+            <View className="items-center justify-center bg-slate-300 rounded-full w-[80px] h-[80px] m-auto my-3">
+              <Feather name="user" size={70} color="black" />
+            </View>
 
-          <View className="flex-row ">
-            <CustomInput
-              placeholder="First Name"
-              value={firstName}
-              setValue={setFirstName}
-              type="HALF"
-            />
-            <CustomInput
-              placeholder="Last Name"
-              value={lastName}
-              setValue={setLastName}
-              type="HALF"
-            />
-          </View>
+            <View className="flex-row ">
+              <CustomInput
+                placeholder="First Name"
+                value={firstName}
+                setValue={setFirstName}
+                type="HALF"
+              />
+              <CustomInput
+                placeholder="Last Name"
+                value={lastName}
+                setValue={setLastName}
+                type="HALF"
+              />
+            </View>
 
-          <CustomInput
-            placeholder="Username"
-            value={username}
-            setValue={setUsername}
-          />
-          <CustomInput placeholder="email" value={email} setValue={setEmail} />
-          <View className="flex-row">
             <CustomInput
-              placeholder="Date of Birth"
-              value={dob}
-              setValue={setDob}
-              type="HALF"
+              placeholder="Username"
+              value={username}
+              setValue={setUsername}
             />
             <CustomInput
-              placeholder="Gender"
-              value={gender}
-              setValue={setGender}
-              type="HALF"
+              placeholder="email"
+              value={email}
+              setValue={setEmail}
             />
-          </View>
-          <View className="justify-center items-center mt-2 mb-5">
-            <CustomButton text="Edit" type="PRIMARY" />
-          </View>
-          <BackToLanding
-            onPress={() => {
-              navigation.navigate("FindMedicine");
-            }}
-          />
-        </ScrollView>
+            <View className="flex-row">
+              <CustomInput
+                placeholder="Date of Birth"
+                value={dob}
+                setValue={setDob}
+                type="HALF"
+              />
+              <CustomInput
+                placeholder="Gender"
+                value={gender}
+                setValue={setGender}
+                type="HALF"
+              />
+            </View>
+            <View className="justify-center items-center mt-2 mb-5">
+              <CustomButton text="Edit" type="PRIMARY" />
+            </View>
+            <BackToLanding
+              onPress={() => {
+                navigation.navigate("FindMedicine");
+              }}
+            />
+          </ScrollView>
+        </SafeAreaView>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 
