@@ -3,10 +3,11 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-const CustomButton = ({ onPress, text, type }) => {
+const CustomButton = ({ onPress, text, type, isValid = "false" }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
+      // disabled={isValid}
       className={`${
         type == "TERITARY"
           ? " bg-transparent w-[100%]"

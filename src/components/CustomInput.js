@@ -9,6 +9,7 @@ const CustomInput = ({
   placeholder,
   secureTextEntry,
   type,
+  handleBlur,
 }) => {
   return (
     <View
@@ -21,6 +22,8 @@ const CustomInput = ({
         placeholder={placeholder}
         onChangeText={setValue}
         secureTextEntry={secureTextEntry}
+        onBlur={handleBlur}
+        autoCapitalize="none"
         className={`${
           type == "HALF" ? "flex-row" : ""
         }  border-1 border-[#313030] rounded bg-white px-2 py-2 text-lg w-[100%]`}

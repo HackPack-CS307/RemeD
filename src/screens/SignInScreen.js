@@ -30,6 +30,7 @@ const SignInScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setIsLoggedIn } = useContext(UserContext);
+  const [uid, setUid] = useState("");
 
   // const { user, setUser } = useAuth();
 
@@ -51,6 +52,7 @@ const SignInScreen = () => {
         // Signed in
         const user = userCredential.user;
         const userId = userCredential.user.uid;
+        setUid(uid);
 
         // ...
         // console.warn("log in");
