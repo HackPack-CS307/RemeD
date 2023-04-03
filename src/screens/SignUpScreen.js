@@ -102,20 +102,11 @@ const SignUpScreen = () => {
                         username: values.username,
                       })
                         .then(() => {
-                          var type = "success";
-                          var toastMessage1 = "User created succesfully";
-                          var toastMessage2 =
-                            "Please login for the first time! ";
                           console.log("User details added to Firestore");
-                          Toast.show({
-                            type: type,
-                            text1: toastMessage1,
-                            text2: toastMessage2,
-                            position: "top-right",
-                            visibilityTime: 2000,
-                          });
 
-                          navigation.navigate("SignInScreen");
+                          navigation.navigate("SignInScreen", {
+                            message: "Please sign in with your new account",
+                          });
                         })
                         .catch((error) => {
                           console.log(error.code);

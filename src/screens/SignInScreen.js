@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import BgImg from "../../assets/images/loginbg.png";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import LogoComponent from "../components/LogoComponent";
@@ -32,6 +32,17 @@ const SignInScreen = () => {
   const { setIsLoggedIn } = useContext(UserContext);
   const [uid, setUid] = useState("");
 
+  const route = useRoute();
+
+  useEffect(() => {
+    if (route.params && route.params.message) {
+      Toast.show({
+        type: "info",
+        text1: route.params.message,
+        visibilityTime: 5000,
+      });
+    }
+  }, [route.params]);
   // const { user, setUser } = useAuth();
 
   // state change after auth
