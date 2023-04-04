@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import BgImg from "../../assets/images/profile.png";
@@ -10,13 +10,80 @@ import LogoComponent from "../components/LogoComponent";
 import BackToLanding from "../components/BackToLanding";
 import { Feather } from "@expo/vector-icons";
 
+// firebase
+
+import { authentication, db } from "../../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
+// get uid and email after login
+import UserContext from "../context/UserContext";
+import Loading from "../components/CustomLoading";
+
 const Profile = ({ navigation }) => {
+  const { uid, setUid } = useContext(UserContext);
+  const { userEmail, setUserEmail } = useContext(UserContext);
+  const [userData, setUserData] = useState("");
+
+  const [user, setUser] = useState("");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          setFirstName(docSnap.data().firstName);
+          setLastName(docSnap.data().lastName);
+          setUsername(docSnap.data().username);
+          setEmail(userEmail);
+          console.log(
+            "Document data:",
+            docSnap.data(),
+            docSnap.data().firstName
+          );
+        } else {
+          // doc.data() will be undefined in this case
+          setUserData(null);
+          console.log("No such document!");
+        }
+        // setUserData(docSnap.data());
+        setUser({ uid, userEmail });
+      } catch (error) {
+        console.error("Error getting user data:", error);
+      }
+    };
+
+    if (uid) {
+      getUserData();
+    }
+  }, [uid]);
+
+  const handleUpdate = async () => {
+    await updateDoc(doc(db, "users", uid), {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      dob: dob,
+      gender: gender,
+    })
+      .then(() => {
+        console.log("User details updated on Firestore");
+        navigation.navigate("FindMedicine", {
+          message: "User details updated successfully!",
+        });
+      })
+      .catch((error) => {
+        console.log(error.code);
+      });
+  };
 
   return (
     <>
@@ -34,48 +101,56 @@ const Profile = ({ navigation }) => {
             <View className="items-center justify-center bg-slate-300 rounded-full w-[80px] h-[80px] m-auto my-3">
               <Feather name="user" size={70} color="black" />
             </View>
+            <View>
+              {userData ? (
+                <>
+                  <View className="flex-row ">
+                    <CustomInput
+                      placeholder="First Name"
+                      value={firstName}
+                      setValue={setFirstName}
+                      type="HALF"
+                    />
+                    <CustomInput
+                      placeholder="Last Name"
+                      value={lastName}
+                      setValue={setLastName}
+                      type="HALF"
+                    />
+                  </View>
 
-            <View className="flex-row ">
-              <CustomInput
-                placeholder="First Name"
-                value={firstName}
-                setValue={setFirstName}
-                type="HALF"
-              />
-              <CustomInput
-                placeholder="Last Name"
-                value={lastName}
-                setValue={setLastName}
-                type="HALF"
-              />
+                  <CustomInput
+                    placeholder="Username"
+                    value={username}
+                    setValue={setUsername}
+                  />
+                  <CustomInput
+                    placeholder="email"
+                    value={userEmail}
+                    setValue={setEmail}
+                  />
+                  <View className="flex-row">
+                    <CustomInput
+                      placeholder="Date of Birth"
+                      value={dob}
+                      setValue={setDob}
+                      type="HALF"
+                    />
+                    <CustomInput
+                      placeholder="Gender"
+                      value={gender}
+                      setValue={setGender}
+                      type="HALF"
+                    />
+                  </View>
+                </>
+              ) : (
+                <Loading />
+              )}
             </View>
 
-            <CustomInput
-              placeholder="Username"
-              value={username}
-              setValue={setUsername}
-            />
-            <CustomInput
-              placeholder="email"
-              value={email}
-              setValue={setEmail}
-            />
-            <View className="flex-row">
-              <CustomInput
-                placeholder="Date of Birth"
-                value={dob}
-                setValue={setDob}
-                type="HALF"
-              />
-              <CustomInput
-                placeholder="Gender"
-                value={gender}
-                setValue={setGender}
-                type="HALF"
-              />
-            </View>
             <View className="justify-center items-center mt-2 mb-5">
-              <CustomButton text="Edit" type="PRIMARY" />
+              <CustomButton text="Edit" type="PRIMARY" onPress={handleUpdate} />
             </View>
             <BackToLanding
               onPress={() => {

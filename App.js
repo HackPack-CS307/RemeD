@@ -10,13 +10,22 @@ import UserContext from "./src/context/UserContext";
 
 export default function App() {
   const Stack = createStackNavigator();
-  // const [user, setUser] = useState();
-  // const [userId, setUserId] = useState();
+  const [userEmail, setUserEmail] = useState("");
+  const [uid, setUid] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const { user } = useAuth();
 
   return (
-    <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+    <UserContext.Provider
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        userEmail,
+        setUserEmail,
+        uid,
+        setUid,
+      }}
+    >
       <NavigationContainer>
         {isLoggedIn ? (
           <MyDrawer />

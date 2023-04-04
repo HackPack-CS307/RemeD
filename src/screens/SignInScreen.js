@@ -1,5 +1,11 @@
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useState,
+} from "react";
 import BgImg from "../../assets/images/loginbg.png";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
@@ -30,7 +36,8 @@ const SignInScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setIsLoggedIn } = useContext(UserContext);
-  const [uid, setUid] = useState("");
+  const { setUid } = useContext(UserContext);
+  const { setUserEmail } = useContext(UserContext);
 
   const route = useRoute();
 
@@ -63,7 +70,10 @@ const SignInScreen = () => {
         // Signed in
         const user = userCredential.user;
         const userId = userCredential.user.uid;
-        setUid(uid);
+        setUid(userId);
+        setUserEmail(user.email);
+        console.log(userId);
+        console.log(user.email);
 
         // ...
         // console.warn("log in");

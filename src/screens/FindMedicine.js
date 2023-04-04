@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BgImg from "../../assets/images/medtrack.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -7,10 +7,27 @@ import LogoComponent from "../components/LogoComponent";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import { ScrollView } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
+
+// toast notify
+import Toast from "react-native-toast-message";
 
 const MedicineTracker = () => {
   const [medication, setMedication] = useState("");
   const [location, setLocation] = useState("");
+
+  const route = useRoute();
+
+  useEffect(() => {
+    if (route.params && route.params.message) {
+      Toast.show({
+        type: "success",
+        text1: route.params.message,
+        visibilityTime: 5000,
+      });
+    }
+  }, [route.params]);
+
   return (
     <>
       <ImageBackground source={BgImg} className="h-[100%] ">
@@ -42,6 +59,7 @@ const MedicineTracker = () => {
             </View>
           </ScrollView>
         </SafeAreaView>
+        <Toast />
       </ImageBackground>
     </>
   );
