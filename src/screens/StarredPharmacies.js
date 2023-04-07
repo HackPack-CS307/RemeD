@@ -6,6 +6,7 @@ import BgImg from "../../assets/images/pharmacy.png";
 import { ScrollView } from "react-native-gesture-handler";
 import BackToLanding from "../components/BackToLanding";
 import LogoComponent from "../components/LogoComponent";
+import UnderDev from "../components/UnderDev";
 
 const StarredPharmacies = ({ navigation }) => {
   return (
@@ -16,9 +17,7 @@ const StarredPharmacies = ({ navigation }) => {
           <LogoComponent />
 
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <View className="pt-10">
-              <Text>StarredPharmacies</Text>
-            </View>
+            <UnderDev />
             <BackToLanding
               onPress={() => {
                 navigation.navigate("FindMedicine");

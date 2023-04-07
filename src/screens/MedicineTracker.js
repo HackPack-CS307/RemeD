@@ -9,6 +9,7 @@ import BgImg from "../../assets/images/medtrack.png";
 import FindMedicine from "./FindMedicine";
 import { Button } from "react-native";
 import BackToLanding from "../components/BackToLanding";
+import UnderDev from "../components/UnderDev";
 
 const MedicineTracker = ({ navigation }) => {
   return (
@@ -18,9 +19,7 @@ const MedicineTracker = ({ navigation }) => {
           <StatusBar hidden={false} />
           <LogoComponent />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <View>
-              <Text>MedicineTracker</Text>
-            </View>
+            <UnderDev />
             <BackToLanding
               onPress={() => {
                 navigation.navigate("FindMedicine");

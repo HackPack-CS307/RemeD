@@ -7,6 +7,7 @@ import { ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import LogoComponent from "../components/LogoComponent";
 import BackToLanding from "../components/BackToLanding";
+import UnderDev from "../components/UnderDev";
 
 const SearchHistory = ({ navigation }) => {
   return (
@@ -16,9 +17,7 @@ const SearchHistory = ({ navigation }) => {
           <StatusBar hidden={false} />
           <LogoComponent />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <View className="pt-10">
-              <Text>SearchHistory</Text>
-            </View>
+            <UnderDev />
             <BackToLanding
               onPress={() => {
                 navigation.navigate("FindMedicine");
