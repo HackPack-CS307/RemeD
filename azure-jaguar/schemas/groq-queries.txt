@@ -1,0 +1,48 @@
+------get the distance to pharmacy from given location
+
+ex- Maharagama
+$current_lat  = 6.871241
+$current_long = 79.889514
+
+*[_type == 'pharmacy' ]{
+    _id,
+    pharmacy_name,
+    'distance':geo::distance(geo::latLng($current_lat, $current_long),geo::latLng(lat, long)),       
+}
+
+------- reference (still not working)
+
+available_drugs[]._ref in *[_type=="drug" && drug_name=='pendol']._id
+
+
+-------- dragon key = c13f95d7-7570-4175-90e6-012eca0c8655
+
+-------- pendol key = c91b34a3-2a5b-43e0-ad7b-dfc46f9af275
+
+
+------- get drugs available in specific pharmacy
+
+*[_type == 'pharmacy' && _id == 'c13f95d7-7570-4175-90e6-012eca0c8655' ] {
+  available_drugs[]->{
+    drug_name
+  }
+}
+
+------- get pharmacies and available drugs within a given range in ascending order of distance
+
+*[_type == 'pharmacy' && geo::distance(geo::latLng(6.871241, 79.889514),geo::latLng(lat, long)) < 5000 ] {
+  pharmacy_name,
+    address,
+    contact_no,
+  'distance':geo::distance(geo::latLng(6.871241, 79.889514),geo::latLng(lat, long)), 
+  available_drugs[]->{
+    drug_name
+  }
+} | order(distance asc)
+  
+-------- get details of multiple drugs at once
+
+*[_type == 'drug' && drug_name in ['Amoxilin', 'pendol']] {
+...
+}
+  

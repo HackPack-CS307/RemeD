@@ -8,6 +8,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useAuth } from "./src/context/useAuth";
 import UserContext from "./src/context/UserContext";
 
+// urlsearcparam.set noy implement
+import "react-native-url-polyfill/auto";
+
 export default function App() {
   const Stack = createStackNavigator();
   const [userEmail, setUserEmail] = useState("");
