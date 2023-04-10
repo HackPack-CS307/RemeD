@@ -1,16 +1,40 @@
 import React, { createContext, useContext, useState } from "react";
 
-const LoginContext = createContext();
+const UserContext = createContext();
 
-const LoginProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
+  const [userEmail, setUserEmail] = useState("");
+  const [uid, setUid] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [drug, setDrug] = useState("");
+  const [pharmacyAvailableDrugs, setPharmacyAvailableDrugs] = useState("");
+
   return (
-    <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+    <UserContext.Provider
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        userEmail,
+        setUserEmail,
+        uid,
+        setUid,
+        drug,
+        setDrug,
+        pharmacyAvailableDrugs,
+        setPharmacyAvailableDrugs,
+      }}
+    >
       {children}
-    </LoginContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export const useLogin = () => useContext(LoginContext);
+export const useLogin = () => useContext(UserContext);
 
-export default LoginProvider;
+export default UserProvider;
+
+// import React, { createContext, useState } from "react";
+
+// const UserContext = createContext();
+
+// export default UserContext;

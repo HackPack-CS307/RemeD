@@ -16,6 +16,11 @@ export default function App() {
   const [userEmail, setUserEmail] = useState("");
   const [uid, setUid] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [drug, setDrug] = useState("");
+  const [selected, setSelected] = useState("");
+  const [pickLocationLat, setPickLocationLat] = useState("");
+  const [pickLocationLong, setPickLocationLong] = useState("");
+
   // const { user } = useAuth();
 
   return (
@@ -27,6 +32,14 @@ export default function App() {
         setUserEmail,
         uid,
         setUid,
+        drug,
+        setDrug,
+        selected,
+        setSelected,
+        pickLocationLat,
+        setPickLocationLat,
+        pickLocationLong,
+        setPickLocationLong,
       }}
     >
       <NavigationContainer>

@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, {
   useContext,
   useEffect,
@@ -120,39 +126,44 @@ const SignInScreen = () => {
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <LogoComponent />
-            <View>
-              <Text className=" font-bold uppercase text-5xl">Hello</Text>
-              <Text className=" mt-1 text-lg">Log In to continue</Text>
-            </View>
-            <CustomInput
-              placeholder="Email"
-              value={username}
-              setValue={setUsername}
-            />
-            <CustomInput
-              placeholder="Password"
-              value={password}
-              setValue={setPassword}
-              secureTextEntry={true}
-            />
-            <TouchableOpacity className="items-end mt-2">
-              <Text className="uppercase">Forgot Password ?</Text>
-            </TouchableOpacity>
-            <View className="justify-center items-center mt-2 ">
-              <CustomButton
-                text="Sign In"
-                onPress={handleSignIn}
-                type="PRIMARY"
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+              <LogoComponent />
+              <View>
+                <Text className=" font-bold uppercase text-5xl">Hello</Text>
+                <Text className=" mt-1 text-lg">Log In to continue</Text>
+              </View>
+              <CustomInput
+                placeholder="Email"
+                value={username}
+                setValue={setUsername}
               />
-            </View>
-            <View className="mt-3 bottom-0">
-              <CustomButton
-                text="Don't have an account? Sign up"
-                onPress={() => navigation.navigate("SignUpScreen")}
-                type="TERITARY"
+              <CustomInput
+                placeholder="Password"
+                value={password}
+                setValue={setPassword}
+                secureTextEntry={true}
               />
-            </View>
+              <TouchableOpacity className="items-end mt-2">
+                <Text className="uppercase">Forgot Password ?</Text>
+              </TouchableOpacity>
+              <View className="justify-center items-center mt-2 ">
+                <CustomButton
+                  text="Sign In"
+                  onPress={handleSignIn}
+                  type="PRIMARY"
+                />
+              </View>
+              <View className="mt-3 bottom-0">
+                <CustomButton
+                  text="Don't have an account? Sign up"
+                  onPress={() => navigation.navigate("SignUpScreen")}
+                  type="TERITARY"
+                />
+              </View>
+            </KeyboardAvoidingView>
           </ScrollView>
         </SafeAreaView>
         <Toast />

@@ -46,3 +46,13 @@ available_drugs[]._ref in *[_type=="drug" && drug_name=='pendol']._id
 ...
 }
   
+------- fliter pharmacies acording to distance and available_drugs (finallly!!!!!!)
+
+*[_type == 'pharmacy' && geo::distance(geo::latLng(6.871241, 79.889514),geo::latLng(lat, long)) < 5000 ] {
+          'distance':geo::distance(geo::latLng(6.871241, 79.889514),geo::latLng(lat, long)),
+          available_drugs[]->{drug_name},
+          pharmacy_name,
+          address,
+          contact_no,
+          _id
+        }[ "pendol" || "vitamin C" in available_drugs[].drug_name] | order(distance asc)

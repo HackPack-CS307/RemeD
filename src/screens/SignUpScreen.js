@@ -1,4 +1,10 @@
-import { View, Text, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import BgImg from "../../assets/images/loginbg.png";
 import CustomInput from "../components/CustomInput";
@@ -63,187 +69,194 @@ const SignUpScreen = () => {
           <StatusBar hidden={false} />
           <LogoComponent />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <View className=" items-start">
-              <Text className="text-[#0d0d0e]  font-bold text-4xl">
-                Welcome
-              </Text>
-              <Text className=" mt-1 text-m font-semibold">
-                Don't have an account yet? Register now.
-              </Text>
-            </View>
-            <Formik
-              initialValues={{
-                firstName: "",
-                lastName: "",
-                email: "",
-                username: "",
-                password: "",
-                passwordRepeat: "",
-              }}
-              validationSchema={SignupSchema}
-              onSubmit={async (values) => {
-                try {
-                  // Create a new user account with Firebase Authentication
-                  await createUserWithEmailAndPassword(
-                    authentication,
-                    values.email,
-                    values.password
-                  )
-                    .then(async (userCredential) => {
-                      // Signed in
-                      const user = userCredential.user;
-                      const uid = user.uid;
-                      // ...
-                      // console.warn("Sign up...");
-
-                      await setDoc(doc(db, "users", uid), {
-                        firstName: values.firstName,
-                        lastName: values.lastName,
-                        username: values.username,
-                      })
-                        .then(() => {
-                          console.log("User details added to Firestore");
-
-                          navigation.navigate("SignInScreen", {
-                            message: "Please sign in with your new account",
-                          });
-                        })
-                        .catch((error) => {
-                          console.log(error.code);
-                        });
-                    })
-                    .catch((error) => {
-                      const errorCode = error.code;
-                      var type = "error";
-                      if (errorCode === "auth/email-already-in-use") {
-                        var toastMessage1 = "Email already existed!";
-                        var toastMessage2 =
-                          "Please use a different email address! ";
-                      } else {
-                        var toastMessage1 = error.message;
-                        var toastMessage2 = "Please try again later! ";
-                      }
-                      console.log(error);
-                      Toast.show({
-                        type: type,
-                        text1: toastMessage1,
-                        text2: toastMessage2,
-                        position: "top-right",
-                        visibilityTime: 5000,
-                      });
-                    });
-                } catch (error) {
-                  console.error(error);
-                  // TODO: Display an error message to the user
-                }
-              }}
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                setFieldTouched,
-                isValid,
-                handleSubmit,
-              }) => (
-                <>
-                  <View className="flex-row ">
+              <View className=" items-start">
+                <Text className="text-[#0d0d0e]  font-bold text-4xl">
+                  Welcome
+                </Text>
+                <Text className=" mt-1 text-m font-semibold">
+                  Don't have an account yet? Register now.
+                </Text>
+              </View>
+              <Formik
+                initialValues={{
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  username: "",
+                  password: "",
+                  passwordRepeat: "",
+                }}
+                validationSchema={SignupSchema}
+                onSubmit={async (values) => {
+                  try {
+                    // Create a new user account with Firebase Authentication
+                    await createUserWithEmailAndPassword(
+                      authentication,
+                      values.email,
+                      values.password
+                    )
+                      .then(async (userCredential) => {
+                        // Signed in
+                        const user = userCredential.user;
+                        const uid = user.uid;
+                        // ...
+                        // console.warn("Sign up...");
+
+                        await setDoc(doc(db, "users", uid), {
+                          firstName: values.firstName,
+                          lastName: values.lastName,
+                          username: values.username,
+                        })
+                          .then(() => {
+                            console.log("User details added to Firestore");
+
+                            navigation.navigate("SignInScreen", {
+                              message: "Please sign in with your new account",
+                            });
+                          })
+                          .catch((error) => {
+                            console.log(error.code);
+                          });
+                      })
+                      .catch((error) => {
+                        const errorCode = error.code;
+                        var type = "error";
+                        if (errorCode === "auth/email-already-in-use") {
+                          var toastMessage1 = "Email already existed!";
+                          var toastMessage2 =
+                            "Please use a different email address! ";
+                        } else {
+                          var toastMessage1 = error.message;
+                          var toastMessage2 = "Please try again later! ";
+                        }
+                        console.log(error);
+                        Toast.show({
+                          type: type,
+                          text1: toastMessage1,
+                          text2: toastMessage2,
+                          position: "top-right",
+                          visibilityTime: 5000,
+                        });
+                      });
+                  } catch (error) {
+                    console.error(error);
+                    // TODO: Display an error message to the user
+                  }
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  setFieldTouched,
+                  isValid,
+                  handleSubmit,
+                }) => (
+                  <>
+                    <View className="flex-row ">
+                      <CustomInput
+                        placeholder="First Name"
+                        value={values.firstName}
+                        setValue={handleChange("firstName")}
+                        handleBlur={() => setFieldTouched("firstName")}
+                        type="HALF"
+                      />
+
+                      <CustomInput
+                        placeholder="Last Name"
+                        value={values.lastName}
+                        setValue={handleChange("lastName")}
+                        handleBlur={() => setFieldTouched("lastName")}
+                        type="HALF"
+                      />
+                    </View>
+                    <View className="flex-row justify-between ">
+                      {touched.firstName && errors.firstName && (
+                        <Text className="text-red-500">
+                          {errors.firstName}{" "}
+                        </Text>
+                      )}
+                      {touched.lastName && errors.lastName && (
+                        <Text className="text-red-500">{errors.lastName} </Text>
+                      )}
+                    </View>
                     <CustomInput
-                      placeholder="First Name"
-                      value={values.firstName}
-                      setValue={handleChange("firstName")}
-                      handleBlur={() => setFieldTouched("firstName")}
-                      type="HALF"
+                      placeholder="Email"
+                      value={values.email}
+                      setValue={handleChange("email")}
+                      handleBlur={() => setFieldTouched("email")}
                     />
+                    {touched.email && errors.email && (
+                      <Text className="text-red-500">{errors.email} </Text>
+                    )}
+                    <CustomInput
+                      placeholder="Username"
+                      value={values.username}
+                      setValue={handleChange("username")}
+                      handleBlur={() => setFieldTouched("username")}
+                    />
+                    {touched.username && errors.username && (
+                      <Text className="text-red-500">{errors.username} </Text>
+                    )}
 
                     <CustomInput
-                      placeholder="Last Name"
-                      value={values.lastName}
-                      setValue={handleChange("lastName")}
-                      handleBlur={() => setFieldTouched("lastName")}
-                      type="HALF"
+                      placeholder="Password"
+                      value={values.password}
+                      setValue={handleChange("password")}
+                      handleBlur={() => setFieldTouched("password")}
+                      secureTextEntry={true}
                     />
-                  </View>
-                  <View className="flex-row justify-between ">
-                    {touched.firstName && errors.firstName && (
-                      <Text className="text-red-500">{errors.firstName} </Text>
+                    {touched.password && errors.password && (
+                      <Text className="text-red-500">{errors.password} </Text>
                     )}
-                    {touched.lastName && errors.lastName && (
-                      <Text className="text-red-500">{errors.lastName} </Text>
-                    )}
-                  </View>
-                  <CustomInput
-                    placeholder="Email"
-                    value={values.email}
-                    setValue={handleChange("email")}
-                    handleBlur={() => setFieldTouched("email")}
-                  />
-                  {touched.email && errors.email && (
-                    <Text className="text-red-500">{errors.email} </Text>
-                  )}
-                  <CustomInput
-                    placeholder="Username"
-                    value={values.username}
-                    setValue={handleChange("username")}
-                    handleBlur={() => setFieldTouched("username")}
-                  />
-                  {touched.username && errors.username && (
-                    <Text className="text-red-500">{errors.username} </Text>
-                  )}
 
-                  <CustomInput
-                    placeholder="Password"
-                    value={values.password}
-                    setValue={handleChange("password")}
-                    handleBlur={() => setFieldTouched("password")}
-                    secureTextEntry={true}
-                  />
-                  {touched.password && errors.password && (
-                    <Text className="text-red-500">{errors.password} </Text>
-                  )}
-
-                  <CustomInput
-                    placeholder="Retype Password"
-                    value={values.passwordRepeat}
-                    setValue={handleChange("passwordRepeat")}
-                    handleBlur={() => setFieldTouched("passwordRepeat")}
-                    //   hide password
-                    secureTextEntry={true}
-                  />
-                  {touched.passwordRepeat && errors.passwordRepeat && (
-                    <Text className="text-red-500">
-                      {errors.passwordRepeat}{" "}
-                    </Text>
-                  )}
-
-                  <View className="justify-center items-center mt-2 mb-5">
-                    <CustomButton
-                      text="Register"
-                      onPress={handleSubmit}
-                      type="PRIMARY"
-                      isValid={!isValid}
+                    <CustomInput
+                      placeholder="Retype Password"
+                      value={values.passwordRepeat}
+                      setValue={handleChange("passwordRepeat")}
+                      handleBlur={() => setFieldTouched("passwordRepeat")}
+                      //   hide password
+                      secureTextEntry={true}
                     />
-
-                    <Text className="my-[25px] text-gray-500">
-                      By registering, you confirm that you accept our
-                      <Text className="text-[#fdb075]">Terms</Text> of
-                      <Text className="text-[#fdb075]">
-                        Use and Privacy policy.
+                    {touched.passwordRepeat && errors.passwordRepeat && (
+                      <Text className="text-red-500">
+                        {errors.passwordRepeat}{" "}
                       </Text>
-                    </Text>
-                  </View>
-                </>
-              )}
-            </Formik>
+                    )}
 
-            <View className="pb-10">
-              <CustomButton
-                text="Allready have an account? Sign In"
-                onPress={() => navigation.navigate("SignInScreen")}
-                type="TERITARY"
-              />
-            </View>
+                    <View className="justify-center items-center mt-2 mb-5">
+                      <CustomButton
+                        text="Register"
+                        onPress={handleSubmit}
+                        type="PRIMARY"
+                        isValid={!isValid}
+                      />
+
+                      <Text className="my-[25px] text-gray-500">
+                        By registering, you confirm that you accept our
+                        <Text className="text-[#fdb075]">Terms</Text> of
+                        <Text className="text-[#fdb075]">
+                          Use and Privacy policy.
+                        </Text>
+                      </Text>
+                    </View>
+                  </>
+                )}
+              </Formik>
+
+              <View className="pb-10">
+                <CustomButton
+                  text="Allready have an account? Sign In"
+                  onPress={() => navigation.navigate("SignInScreen")}
+                  type="TERITARY"
+                />
+              </View>
+            </KeyboardAvoidingView>
           </ScrollView>
         </SafeAreaView>
         <Toast />

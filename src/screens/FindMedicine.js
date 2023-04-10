@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BgImg from "../../assets/images/medtrack.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -12,9 +12,39 @@ import { useRoute } from "@react-navigation/native";
 // toast notify
 import Toast from "react-native-toast-message";
 
-const MedicineTracker = () => {
-  const [medication, setMedication] = useState("");
-  const [location, setLocation] = useState("");
+// google api
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+// search bar
+import { MultipleSelectList } from "react-native-dropdown-select-list";
+import client from "../../sanity";
+import UserContext from "../context/UserContext";
+
+const MedicineTracker = ({ navigation }) => {
+  const { setDrug, setSelected, setPickLocationLat, setPickLocationLong } =
+    useContext(UserContext);
+
+  // search query of drugs
+  const [searchData, setSearchData] = useState("");
+
+  useEffect(() => {
+    client
+      .fetch(
+        `
+    *[_type == 'drug'] {
+      _id,drug_name
+      }
+    `
+      )
+      .then((data) => {
+        let newArray = data.map((item) => {
+          return { key: item._id, value: item.drug_name };
+        });
+        //Set Data Variable
+        setSearchData(newArray);
+        setDrug(data);
+      });
+  }, []);
 
   const route = useRoute();
 
@@ -34,7 +64,7 @@ const MedicineTracker = () => {
         <SafeAreaView className="flex-1 ">
           <StatusBar hidden={false} />
           <LogoComponent />
-          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+          <View className="p-5">
             <View className="px-2 items-center ">
               <Text className=" font-bold uppercase text-3xl">
                 Locate Your Medication
@@ -43,21 +73,50 @@ const MedicineTracker = () => {
                 Use RemeD advanced serch
               </Text>
             </View>
-            <CustomInput
+            <MultipleSelectList
+              data={searchData}
+              setSelected={setSelected}
+              // onSelect={() => alert(selected)}
               placeholder="Search Your Medication"
-              value={medication}
-              setValue={setMedication}
+              label="Search Your Medication"
+              searchPlaceholder="Search Your Medication"
+              notFoundText="Medication not found"
+              save="value"
+              boxStyles={{ backgroundColor: "white", borderColor: "white" }}
+              maxHeight={250}
             />
-            <CustomInput
-              placeholder="Current Location or Custom Location"
-              value={location}
-              setValue={setLocation}
-            />
+            <View className="flex-row items-center bg-white rounded-xl px-1 shadow-lg mt-4 ">
+              <GooglePlacesAutocomplete
+                GooglePlacesDetailsQuery={{ fields: "geometry" }}
+                placeholder="Current Location or Custom Location"
+                fetchDetails={true}
+                onPress={(data, details = null) => {
+                  // 'details' is provided when fetchDetails = true
+                  console.log(data, details?.geometry?.viewport);
+                  setPickLocationLat(
+                    details?.geometry?.viewport?.southwest?.lat
+                  );
+                  setPickLocationLong(
+                    details?.geometry?.viewport?.southwest?.lng
+                  );
+                }}
+                query={{
+                  key: "AIzaSyCMPdDcWBdTLCqJJN6AffHjWXz9VL8rXEI",
+                  language: "en",
+                }}
+              />
+            </View>
 
             <View className="justify-center items-center mt-2 ">
-              <CustomButton text="Route" type="PRIMARY" />
+              <CustomButton
+                text="Route"
+                type="PRIMARY"
+                onPress={() => {
+                  navigation.navigate("PharmacyResult");
+                }}
+              />
             </View>
-          </ScrollView>
+          </View>
         </SafeAreaView>
         <Toast />
       </ImageBackground>

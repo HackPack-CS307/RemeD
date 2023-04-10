@@ -19,6 +19,7 @@ import MedicineTracker from "./MedicineTracker";
 import PrescriptionReader from "./PrescriptionReader";
 import Logout from "./Logout";
 import FindMedicine from "./FindMedicine";
+import PharmacyResult from "./PharmacyResult";
 
 const Drawer = createDrawerNavigator();
 
@@ -153,6 +154,17 @@ const MyDrawer = () => {
               ),
               drawerItemStyle: {
                 paddingVertical: 5,
+              },
+            }}
+          />
+          <Drawer.Screen
+            name="PharmacyResult"
+            component={PharmacyResult}
+            options={{
+              title: "PharmacyResult",
+              drawerItemStyle: {
+                paddingVertical: 5,
+                display: "none",
               },
             }}
           />

@@ -15,7 +15,7 @@ const CustomInput = ({
     <View
       className={`${
         type == "HALF" ? "flex-1 mr-1" : "flex"
-      } mt-3 px-0 flex-row bg-white`}
+      } mt-3 px-0 flex-row bg-white rounded-xl shadow-lg`}
     >
       <TextInput
         value={value}
