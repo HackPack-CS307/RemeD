@@ -16,14 +16,14 @@ const SearchHistory = ({ navigation }) => {
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
           <LogoComponent />
-          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+          <ScrollView showsVerticalScrollIndicator={false} className="p-5 mt-0">
             <UnderDev />
-            <BackToLanding
-              onPress={() => {
-                navigation.navigate("FindMedicine");
-              }}
-            />
           </ScrollView>
+          <BackToLanding
+            onPress={() => {
+              navigation.navigate("FindMedicine");
+            }}
+          />
         </SafeAreaView>
       </ImageBackground>
     </>

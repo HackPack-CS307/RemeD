@@ -20,12 +20,12 @@ const MedicineTracker = ({ navigation }) => {
           <LogoComponent />
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
             <UnderDev />
-            <BackToLanding
-              onPress={() => {
-                navigation.navigate("FindMedicine");
-              }}
-            />
           </ScrollView>
+          <BackToLanding
+            onPress={() => {
+              navigation.navigate("FindMedicine");
+            }}
+          />
         </SafeAreaView>
       </ImageBackground>
     </>

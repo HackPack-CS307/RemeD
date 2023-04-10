@@ -7,13 +7,15 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const BackToLanding = ({ onPress }) => {
   return (
-    <View className="w-[50px] h-[50px] rounded-full ">
-      <TouchableOpacity
-        onPress={onPress}
-        className="w-[50px] h-[50px] rounded-full touch-none"
-      >
-        <Ionicons name="arrow-back-circle-sharp" size={50} color="black" />
-      </TouchableOpacity>
+    <View className="justify-end mb-[36px] left-5">
+      <View className="w-[50px] h-[50px] rounded-full  ">
+        <TouchableOpacity
+          onPress={onPress}
+          className="w-[50px] h-[50px] rounded-full touch-none"
+        >
+          <Ionicons name="arrow-back-circle-sharp" size={50} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

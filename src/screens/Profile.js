@@ -152,12 +152,12 @@ const Profile = ({ navigation }) => {
             <View className="justify-center items-center mt-2 mb-5">
               <CustomButton text="Edit" type="PRIMARY" onPress={handleUpdate} />
             </View>
-            <BackToLanding
-              onPress={() => {
-                navigation.navigate("FindMedicine");
-              }}
-            />
           </ScrollView>
+          <BackToLanding
+            onPress={() => {
+              navigation.navigate("FindMedicine");
+            }}
+          />
         </SafeAreaView>
       </ImageBackground>
     </>
