@@ -13,6 +13,8 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import LogoComponent from "../components/LogoComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Logo from "../../assets/images/logo.png";
+import { Image } from "react-native";
 
 // firebase and firestore auth
 import { ScrollView } from "react-native-gesture-handler";
@@ -65,10 +67,19 @@ const SignUpScreen = () => {
   return (
     <>
       <ImageBackground source={BgImg} className="h-[100%] ">
+        <View className=" top-0 right-0 pb-0">
+          <Image
+            source={Logo}
+            className="w-[600px] h-[200px] "
+            resizeMode="contain"
+          />
+        </View>
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
-          <LogoComponent />
-          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            className="p-5 pt-0 mt-0"
+          >
             <KeyboardAvoidingView
               style={{ flex: 1 }}
               behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -229,7 +240,7 @@ const SignUpScreen = () => {
                       </Text>
                     )}
 
-                    <View className="justify-center items-center mt-2 mb-5">
+                    <View className="justify-center items-center mt-2 ">
                       <CustomButton
                         text="Register"
                         onPress={handleSubmit}
@@ -249,7 +260,7 @@ const SignUpScreen = () => {
                 )}
               </Formik>
 
-              <View className="pb-10">
+              <View className="pb-5">
                 <CustomButton
                   text="Allready have an account? Sign In"
                   onPress={() => navigation.navigate("SignInScreen")}

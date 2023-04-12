@@ -20,6 +20,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import LogoComponent from "../components/LogoComponent";
+import Logo from "../../assets/images/logo.png";
+import { Image } from "react-native";
 
 // firebase imports
 import { signInWithEmailAndPassword, User } from "firebase/auth";
@@ -123,14 +125,21 @@ const SignInScreen = () => {
   return (
     <>
       <ImageBackground source={BgImg} className="h-[100%] ">
+        <View className=" top-0 right-0">
+          <Image
+            source={Logo}
+            className="w-[600px] h-[200px] "
+            resizeMode="contain"
+          />
+        </View>
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
+
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
             <KeyboardAvoidingView
               style={{ flex: 1 }}
               behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-              <LogoComponent />
               <View>
                 <Text className=" font-bold uppercase text-5xl">Hello</Text>
                 <Text className=" mt-1 text-lg">Log In to continue</Text>
@@ -156,16 +165,16 @@ const SignInScreen = () => {
                   type="PRIMARY"
                 />
               </View>
-              <View className="mt-3 bottom-0">
-                <CustomButton
-                  text="Don't have an account? Sign up"
-                  onPress={() => navigation.navigate("SignUpScreen")}
-                  type="TERITARY"
-                />
-              </View>
             </KeyboardAvoidingView>
           </ScrollView>
         </SafeAreaView>
+        <View className="absolute bottom-0 mb-[38px] mx-auto pl-[60px] w-min">
+          <CustomButton
+            text="Don't have an account? Sign up"
+            onPress={() => navigation.navigate("SignUpScreen")}
+            type="TERITARY"
+          />
+        </View>
         <Toast />
       </ImageBackground>
     </>
