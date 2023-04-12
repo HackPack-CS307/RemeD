@@ -1,5 +1,11 @@
-import { View, Text, ImageBackground } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import BgImg from "../../assets/images/medtrack.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -7,8 +13,9 @@ import LogoComponent from "../components/LogoComponent";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import { ScrollView } from "react-native-gesture-handler";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
+import { GOOGLE_PLACES_API } from "@env";
 // toast notify
 import Toast from "react-native-toast-message";
 
@@ -21,8 +28,18 @@ import client from "../../sanity";
 import UserContext from "../context/UserContext";
 
 const MedicineTracker = ({ navigation }) => {
-  const { setDrug, setSelected, setPickLocationLat, setPickLocationLong } =
-    useContext(UserContext);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogoComponent />,
+    });
+  }, []);
+  const {
+    setDrug,
+    setSelected,
+    setPickLocationLat,
+    setPickLocationLong,
+    setIsLoading,
+  } = useContext(UserContext);
 
   // search query of drugs
   const [searchData, setSearchData] = useState("");
@@ -58,65 +75,73 @@ const MedicineTracker = ({ navigation }) => {
     }
   }, [route.params]);
 
+  const handleRoute = () => {
+    setIsLoading(true);
+    navigation.navigate("PharmacyResult");
+  };
+
   return (
     <>
       <ImageBackground source={BgImg} className="h-[100%] ">
         <SafeAreaView className="flex-1 ">
           <StatusBar hidden={false} />
-          <LogoComponent />
-          <View className="p-5">
-            <View className="px-2 items-center ">
-              <Text className=" font-bold uppercase text-3xl">
-                Locate Your Medication
-              </Text>
-              <Text className=" mt-3 mb-6 text-lg">
-                Use RemeD advanced serch
-              </Text>
-            </View>
-            <MultipleSelectList
-              data={searchData}
-              setSelected={setSelected}
-              // onSelect={() => alert(selected)}
-              placeholder="Search Your Medication"
-              label="Search Your Medication"
-              searchPlaceholder="Search Your Medication"
-              notFoundText="Medication not found"
-              save="value"
-              boxStyles={{ backgroundColor: "white", borderColor: "white" }}
-              maxHeight={250}
-            />
-            <View className="flex-row items-center bg-white rounded-xl px-1 shadow-lg mt-4 ">
-              <GooglePlacesAutocomplete
-                GooglePlacesDetailsQuery={{ fields: "geometry" }}
-                placeholder="Current Location or Custom Location"
-                fetchDetails={true}
-                onPress={(data, details = null) => {
-                  // 'details' is provided when fetchDetails = true
-                  console.log(data, details?.geometry?.viewport);
-                  setPickLocationLat(
-                    details?.geometry?.viewport?.southwest?.lat
-                  );
-                  setPickLocationLong(
-                    details?.geometry?.viewport?.southwest?.lng
-                  );
-                }}
-                query={{
-                  key: "AIzaSyCMPdDcWBdTLCqJJN6AffHjWXz9VL8rXEI",
-                  language: "en",
-                }}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            className="flex-1"
+          >
+            <View className="p-5 mt-[100px]">
+              <View className="px-2 items-center ">
+                <Text className=" font-bold uppercase text-3xl">
+                  Locate Your Medication
+                </Text>
+                <Text className=" mt-3 mb-3 text-lg">
+                  Use RemeD advanced serch
+                </Text>
+              </View>
+              <MultipleSelectList
+                data={searchData}
+                setSelected={setSelected}
+                // onSelect={() => alert(selected)}
+                placeholder="Search Your Medication"
+                label="Search Your Medication"
+                searchPlaceholder="Search Your Medication"
+                notFoundText="Medication not found"
+                save="value"
+                boxStyles={{ backgroundColor: "white", borderColor: "white" }}
+                maxHeight={250}
               />
-            </View>
 
-            <View className="justify-center items-center mt-2 ">
-              <CustomButton
-                text="Route"
-                type="PRIMARY"
-                onPress={() => {
-                  navigation.navigate("PharmacyResult");
-                }}
-              />
+              <View className="flex-row items-center bg-white rounded-xl px-1 shadow-lg mt-4 mb-2">
+                <GooglePlacesAutocomplete
+                  GooglePlacesDetailsQuery={{ fields: "geometry" }}
+                  placeholder="Current Location or Custom Location"
+                  fetchDetails={true}
+                  onPress={(data, details = null) => {
+                    // 'details' is provided when fetchDetails = true
+                    console.log(data, details?.geometry?.viewport);
+                    setPickLocationLat(
+                      details?.geometry?.viewport?.southwest?.lat
+                    );
+                    setPickLocationLong(
+                      details?.geometry?.viewport?.southwest?.lng
+                    );
+                  }}
+                  query={{
+                    key: GOOGLE_PLACES_API,
+                    language: "en",
+                  }}
+                />
+              </View>
+
+              <View className="justify-center items-center mt-2 ">
+                <CustomButton
+                  text="Route"
+                  type="PRIMARY"
+                  onPress={handleRoute}
+                />
+              </View>
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
         <Toast />
       </ImageBackground>

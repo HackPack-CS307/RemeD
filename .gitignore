@@ -13,6 +13,7 @@ janith aiya/
 component/
 firebase.*
 sanity.*
+.env
 
 # macOS
 .DS_Store
