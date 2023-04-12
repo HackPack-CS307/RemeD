@@ -1,5 +1,15 @@
-import { View, Text, ImageBackground, Image } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ImageBackground,
+  Image,
+  Button,
+  Touchable,
+  Pressable,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import BgImg from "../../assets/images/profile.png";
@@ -9,6 +19,13 @@ import CustomButton from "../components/CustomButton";
 import LogoComponent from "../components/LogoComponent";
 import BackToLanding from "../components/BackToLanding";
 import { Feather } from "@expo/vector-icons";
+import NotFound from "../../assets/images/NotFound.png";
+
+// date picker
+import DateTimePicker from "@react-native-community/datetimepicker";
+
+// dropdown
+import DropDownPicker from "react-native-dropdown-picker";
 
 // firebase
 
@@ -20,6 +37,12 @@ import UserContext from "../context/UserContext";
 import Loading from "../components/CustomLoading";
 
 const Profile = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogoComponent />,
+    });
+  }, []);
+
   const { uid, setUid } = useContext(UserContext);
   const { userEmail, setUserEmail } = useContext(UserContext);
   const [userData, setUserData] = useState("");
@@ -32,6 +55,11 @@ const Profile = ({ navigation }) => {
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
+
+  // const [selectedDate, setSelectedDate] = useState("");
+  // date picker
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -66,6 +94,38 @@ const Profile = ({ navigation }) => {
     }
   }, [uid]);
 
+  // date picker toggle
+  const toggleDatePicker = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+
+      if (Platform.OS === "android") {
+        toggleDatePicker();
+        setDob(currentDate.toDateString());
+      }
+    } else {
+      toggleDatePicker();
+    }
+  };
+
+  const confirmIosDate = () => {
+    setDob(date.toDateString());
+    toggleDatePicker();
+  };
+
+  // gender dropdown
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Male", value: "m" },
+    { label: "Female", value: "f" },
+  ]);
+
   const handleUpdate = async () => {
     await updateDoc(doc(db, "users", uid), {
       firstName: firstName,
@@ -90,9 +150,7 @@ const Profile = ({ navigation }) => {
       <ImageBackground source={BgImg} className="h-[100%] ">
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
-          <LogoComponent />
-
-          <ScrollView showsVerticalScrollIndicator={false} className="p-5">
+          <ScrollView className="p-5 mt-[100px]">
             <View className=" items-start">
               <Text className="text-[#0d0d0e]  font-bold text-4xl">
                 Edit your profile
@@ -128,20 +186,62 @@ const Profile = ({ navigation }) => {
                     placeholder="email"
                     value={userEmail}
                     setValue={setEmail}
+                    editable={false}
                   />
                   <View className="flex-row">
-                    <CustomInput
-                      placeholder="Date of Birth"
-                      value={dob}
-                      setValue={setDob}
-                      type="HALF"
-                    />
+                    <View className="flex-1">
+                      {showPicker && (
+                        <DateTimePicker
+                          mode="date"
+                          display="calendar"
+                          value={date}
+                          onChange={onChange}
+                        />
+                      )}
+                      {Platform.OS === "ios" && (
+                        <View className="flex-row justify-around">
+                          <CustomButton
+                            text="Cancel"
+                            type="TERITARY"
+                            onPress={toggleDatePicker}
+                          />
+                          <CustomButton
+                            text="Confirm"
+                            type="PRIMARY"
+                            onPress={confirmIosDate}
+                          />
+                        </View>
+                      )}
+                      <TouchableOpacity
+                        onPress={toggleDatePicker}
+                        onPressIn={toggleDatePicker}
+                      >
+                        <CustomInput
+                          placeholder="Date of Birth"
+                          value={dob}
+                          setValue={setDob}
+                          type="HALF"
+                          editable={false}
+                          onPressIn={toggleDatePicker}
+                        />
+                      </TouchableOpacity>
+                    </View>
                     <CustomInput
                       placeholder="Gender"
                       value={gender}
                       setValue={setGender}
                       type="HALF"
                     />
+                    {/* <View className="flex-1">
+                      <DropDownPicker
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
+                      />
+                    </View> */}
                   </View>
                 </>
               ) : (
@@ -149,7 +249,7 @@ const Profile = ({ navigation }) => {
               )}
             </View>
 
-            <View className="justify-center items-center mt-2 mb-5">
+            <View className="justify-center items-center mt-5 mb-5 pt-5">
               <CustomButton text="Edit" type="PRIMARY" onPress={handleUpdate} />
             </View>
           </ScrollView>

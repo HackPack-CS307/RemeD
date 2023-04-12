@@ -5,7 +5,7 @@ import { Image } from "react-native";
 
 const LogoComponent = () => {
   return (
-    <View className=" items-end -mt-12 -mr-12">
+    <View className="-mr-10 mt-2">
       <Image
         source={Logo}
         className="w-[200px] h-[200px] "
