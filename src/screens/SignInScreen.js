@@ -136,45 +136,41 @@ const SignInScreen = () => {
           <StatusBar hidden={false} />
 
           <ScrollView showsVerticalScrollIndicator={false} className="p-5">
-            <KeyboardAvoidingView
-              style={{ flex: 1 }}
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-              <View>
-                <Text className=" font-bold uppercase text-5xl">Hello</Text>
-                <Text className=" mt-1 text-lg">Log In to continue</Text>
-              </View>
-              <CustomInput
-                placeholder="Email"
-                value={username}
-                setValue={setUsername}
+            <View>
+              <Text className=" font-bold uppercase text-5xl">Hello</Text>
+              <Text className=" mt-1 text-lg">Log In to continue</Text>
+            </View>
+            <CustomInput
+              placeholder="Email"
+              value={username}
+              setValue={setUsername}
+            />
+            <CustomInput
+              placeholder="Password"
+              value={password}
+              setValue={setPassword}
+              secureTextEntry={true}
+            />
+            <TouchableOpacity className="items-end mt-2">
+              <Text className="uppercase">Forgot Password ?</Text>
+            </TouchableOpacity>
+            <View className="justify-center items-center mt-2 ">
+              <CustomButton
+                text="Sign In"
+                onPress={handleSignIn}
+                type="PRIMARY"
               />
-              <CustomInput
-                placeholder="Password"
-                value={password}
-                setValue={setPassword}
-                secureTextEntry={true}
+            </View>
+            <View className=" bottom-0 mx-auto w-min">
+              <CustomButton
+                text="Don't have an account? Sign up"
+                onPress={() => navigation.navigate("SignUpScreen")}
+                type="TERITARY"
               />
-              <TouchableOpacity className="items-end mt-2">
-                <Text className="uppercase">Forgot Password ?</Text>
-              </TouchableOpacity>
-              <View className="justify-center items-center mt-2 ">
-                <CustomButton
-                  text="Sign In"
-                  onPress={handleSignIn}
-                  type="PRIMARY"
-                />
-              </View>
-            </KeyboardAvoidingView>
+            </View>
           </ScrollView>
         </SafeAreaView>
-        <View className="absolute bottom-0 mb-[38px] mx-auto pl-[60px] w-min">
-          <CustomButton
-            text="Don't have an account? Sign up"
-            onPress={() => navigation.navigate("SignUpScreen")}
-            type="TERITARY"
-          />
-        </View>
+
         <Toast />
       </ImageBackground>
     </>
