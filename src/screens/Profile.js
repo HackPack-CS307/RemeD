@@ -71,12 +71,9 @@ const Profile = ({ navigation }) => {
           setFirstName(docSnap.data().firstName);
           setLastName(docSnap.data().lastName);
           setUsername(docSnap.data().username);
+          setDob(docSnap.data().dob);
+          setGender(docSnap.data().gender);
           setEmail(userEmail);
-          console.log(
-            "Document data:",
-            docSnap.data(),
-            docSnap.data().firstName
-          );
         } else {
           // doc.data() will be undefined in this case
           setUserData(null);
@@ -193,7 +190,7 @@ const Profile = ({ navigation }) => {
                       {showPicker && (
                         <DateTimePicker
                           mode="date"
-                          display="calendar"
+                          display="spinner"
                           value={date}
                           onChange={onChange}
                         />
