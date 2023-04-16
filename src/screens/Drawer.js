@@ -20,6 +20,8 @@ import PrescriptionReader from "./PrescriptionReader";
 import Logout from "./Logout";
 import FindMedicine from "./FindMedicine";
 import PharmacyResult from "./PharmacyResult";
+import Map from "./MapScreen";
+import MapScreen from "./MapScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -162,6 +164,17 @@ const MyDrawer = () => {
             component={PharmacyResult}
             options={{
               title: "PharmacyResult",
+              drawerItemStyle: {
+                paddingVertical: 5,
+                display: "none",
+              },
+            }}
+          />
+          <Drawer.Screen
+            name="MapScreen"
+            component={MapScreen}
+            options={{
+              title: "MapScreen",
               drawerItemStyle: {
                 paddingVertical: 5,
                 display: "none",

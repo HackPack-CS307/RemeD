@@ -15,6 +15,7 @@ import CustomButton from "../components/CustomButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
+// google map api stored in .env
 import { GOOGLE_PLACES_API } from "@env";
 // toast notify
 import Toast from "react-native-toast-message";
@@ -39,6 +40,7 @@ const MedicineTracker = ({ navigation }) => {
     setPickLocationLat,
     setPickLocationLong,
     setIsLoading,
+    setPlaceId,
   } = useContext(UserContext);
 
   // search query of drugs
@@ -119,11 +121,23 @@ const MedicineTracker = ({ navigation }) => {
                   onPress={(data, details = null) => {
                     // 'details' is provided when fetchDetails = true
                     console.log(data, details?.geometry?.viewport);
+                    setPlaceId(
+                      details?.geometry?.viewport?.southwest?.lat +
+                        (details?.geometry?.viewport?.northeast?.lat -
+                          details?.geometry?.viewport?.southwest?.lat) /
+                          2
+                    );
                     setPickLocationLat(
-                      details?.geometry?.viewport?.southwest?.lat
+                      details?.geometry?.viewport?.southwest?.lat +
+                        (details?.geometry?.viewport?.northeast?.lat -
+                          details?.geometry?.viewport?.southwest?.lat) /
+                          2
                     );
                     setPickLocationLong(
-                      details?.geometry?.viewport?.southwest?.lng
+                      details?.geometry?.viewport?.southwest?.lng +
+                        (details?.geometry?.viewport?.northeast?.lng -
+                          details?.geometry?.viewport?.southwest?.lng) /
+                          2
                     );
                   }}
                   query={{

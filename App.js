@@ -20,6 +20,8 @@ export default function App() {
   const [selected, setSelected] = useState("");
   const [pickLocationLat, setPickLocationLat] = useState("");
   const [pickLocationLong, setPickLocationLong] = useState("");
+  const [placeId, setPlaceId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   // const { user } = useAuth();
 
@@ -40,6 +42,10 @@ export default function App() {
         setPickLocationLat,
         pickLocationLong,
         setPickLocationLong,
+        isLoading,
+        setIsLoading,
+        placeId,
+        setPlaceId,
       }}
     >
       <NavigationContainer>

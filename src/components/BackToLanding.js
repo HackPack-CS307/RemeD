@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const BackToLanding = ({ onPress }) => {
   return (
-    <View className="justify-end mb-[36px] left-5">
+    <View className="justify-end mb-[36px] left-5 z-20 bg-transparent">
       <View className="w-[50px] h-[50px] rounded-full  ">
         <TouchableOpacity
           onPress={onPress}

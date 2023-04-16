@@ -10,6 +10,8 @@ const CustomInput = ({
   secureTextEntry,
   type,
   handleBlur,
+  editable,
+  onPressIn,
 }) => {
   return (
     <View
@@ -22,6 +24,8 @@ const CustomInput = ({
         placeholder={placeholder}
         onChangeText={setValue}
         secureTextEntry={secureTextEntry}
+        editable={editable}
+        onPressIn={onPressIn}
         onBlur={handleBlur}
         autoCapitalize="none"
         className={`${
