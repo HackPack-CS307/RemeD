@@ -12,6 +12,7 @@ const CustomInput = ({
   handleBlur,
   editable,
   onPressIn,
+  autoCapitalize,
 }) => {
   return (
     <View
@@ -27,7 +28,7 @@ const CustomInput = ({
         editable={editable}
         onPressIn={onPressIn}
         onBlur={handleBlur}
-        autoCapitalize="none"
+        autoCapitalize={autoCapitalize}
         className={`${
           type == "HALF" ? "flex-row" : ""
         }  border-1 border-[#313030] rounded bg-white px-2 py-2 text-lg w-[100%]`}

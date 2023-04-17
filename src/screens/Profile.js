@@ -195,7 +195,7 @@ const Profile = ({ navigation }) => {
                           onChange={onChange}
                         />
                       )}
-                      {Platform.OS === "ios" && (
+                      {/* {Platform.OS === "ios" && (
                         <View className="flex-row justify-around">
                           <CustomButton
                             text="Cancel"
@@ -208,7 +208,7 @@ const Profile = ({ navigation }) => {
                             onPress={confirmIosDate}
                           />
                         </View>
-                      )}
+                      )} */}
                       <TouchableOpacity
                         onPress={toggleDatePicker}
                         onPressIn={toggleDatePicker}

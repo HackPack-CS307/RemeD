@@ -4,6 +4,8 @@ import {
   ImageBackground,
   ActivityIndicator,
   Image,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
@@ -18,6 +20,8 @@ import BackToLanding from "../components/BackToLanding";
 import PharmacyComponent from "../components/PharmacyComponent";
 import Loading from "../components/CustomLoading";
 import NotFound from "../../assets/images/NotFound.png";
+import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const PharmacyResult = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -34,11 +38,12 @@ const PharmacyResult = ({ navigation }) => {
     placeId,
   } = useContext(UserContext);
 
+  const [visible, setVisible] = useState(false);
+  const [selectedRadius, setSelectedRadius] = useState("5000");
   const [pharmacy, setPharmacy] = useState("");
-  const [selectedPharmacy, setSelectedPharmacy] = useState("");
   const selectedDrugs = selected.map((value) => `"${value}"`).join(" || ");
   const query = `
-  *[_type == 'pharmacy' && geo::distance(geo::latLng(${pickLocationLat}, ${pickLocationLong}),geo::latLng(lat, long)) <5000 ] {
+  *[_type == 'pharmacy' && geo::distance(geo::latLng(${pickLocationLat}, ${pickLocationLong}),geo::latLng(lat, long)) < ${selectedRadius} ] {
     'distance':geo::distance(geo::latLng(${pickLocationLat}, ${pickLocationLong}),geo::latLng(lat, long)) / 1000,
     available_drugs[]->{drug_name},
     lat,
@@ -133,11 +138,61 @@ const PharmacyResult = ({ navigation }) => {
               )}
             </View>
           </ScrollView>
-          <BackToLanding
-            onPress={() => {
-              navigation.navigate("FindMedicine");
-            }}
-          />
+          <View className="flex-row">
+            <View className="flex-1">
+              <BackToLanding
+                onPress={() => {
+                  navigation.navigate("FindMedicine");
+                }}
+              />
+            </View>
+            <View className="flex-1 items-end pr-5">
+              <TouchableOpacity
+                onPress={() => setVisible(true)}
+                className="w-[45px] h-[45px] rounded-full bg-black items-center justify-center "
+              >
+                <AntDesign name="filter" size={35} color="white" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Modal transparent visible={visible}>
+            <SafeAreaView className="flex-1">
+              <View className=" rounded-lg border absolute px-10 bottom-[50px] right-[75px] py-2 bg-white  ">
+                <View className="py-2">
+                  <Text className="font-semibold">Distance radius in km</Text>
+                  <View className="flex-row pt-1 justify-between">
+                    <TouchableOpacity
+                      className="bg-slate-200 w-min rounded-xl flex-1 items-center mr-1"
+                      onPress={() => setSelectedRadius("2000")}
+                    >
+                      <Text>2km</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="bg-slate-200 w-min rounded-xl flex-1 items-center mr-1"
+                      onPress={() => setSelectedRadius("5000")}
+                    >
+                      <Text>5km</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="bg-slate-200 w-min rounded-xl flex-1 items-center mr-1"
+                      onPress={() => setSelectedRadius("10000")}
+                    >
+                      <Text>10km</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View className=" absolute top-0 right-0">
+                  <Entypo
+                    name="cross"
+                    size={20}
+                    color="black"
+                    onTouchStart={() => setVisible(false)}
+                  />
+                </View>
+              </View>
+            </SafeAreaView>
+          </Modal>
         </SafeAreaView>
         <Toast />
       </ImageBackground>
