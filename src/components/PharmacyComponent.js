@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform, Linking } from "react-native";
 import React from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -12,6 +12,13 @@ const PharmacyComponent = ({
   address,
   handleNavigation,
 }) => {
+  const makePhoneCall = (contact) => {
+    if (Platform.OS === "android") {
+      Linking.openURL("tel: " + contact);
+    } else {
+      Linking.openURL("tel:// " + contact);
+    }
+  };
   return (
     <View className="pb-3">
       <View className="h-[87px] rounded-2xl bg-white">
@@ -30,9 +37,12 @@ const PharmacyComponent = ({
           </TouchableOpacity>
         </View>
         <View className="px-2 pt-0 flex-row items-center justify-between">
-          <View>
-            <Text>Contact : {contact} </Text>
-          </View>
+          <TouchableOpacity
+            className="bg-blue-300 rounded-full p-1"
+            onPress={() => makePhoneCall(contact)}
+          >
+            <Text>Contact pharmacy </Text>
+          </TouchableOpacity>
           <View>
             <Text>
               <FontAwesome name="star-o" size={15} color="gray" /> {rating}{" "}
