@@ -71,7 +71,7 @@ const MapScreen = ({ navigation, route }) => {
       <ImageBackground source={BgImg} className="h-[100%] ">
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
-          <View className="h-5/6 p-1">
+          <View className="h-5/6 p-2">
             <MapView
               ref={mapRef}
               className="w-[100%] h-[100%] z-0"

@@ -29,7 +29,7 @@ const PharmacyComponent = ({
           </View>
           <View className="flex-row">
             <TouchableOpacity
-              className="rounded-full bg-blue-300 h-[30px] w-[30px] items-center justify-center flex-col ml-4"
+              className="rounded-full bg-blue-200 h-[30px] w-[30px] items-center justify-center flex-col ml-4"
               onPress={() => makePhoneCall(contact)}
             >
               <Feather name="phone-call" size={20} color="black" />

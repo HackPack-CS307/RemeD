@@ -8,6 +8,7 @@ import {
   Pressable,
   Platform,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -148,88 +149,70 @@ const Profile = ({ navigation }) => {
         <SafeAreaView className="flex-1">
           <StatusBar hidden={false} />
           <ScrollView className="p-5 mt-[100px]">
-            <View className=" items-start">
-              <Text className="text-[#0d0d0e]  font-bold text-4xl">
-                Edit your profile
-              </Text>
-            </View>
-            <View className="items-center justify-center bg-slate-300 rounded-full w-[80px] h-[80px] m-auto my-3">
-              <Feather name="user" size={70} color="black" />
-            </View>
-            <View>
-              {userData ? (
-                <>
-                  <View className="flex-row ">
-                    <CustomInput
-                      placeholder="First Name"
-                      value={firstName}
-                      setValue={setFirstName}
-                      type="HALF"
-                    />
-                    <CustomInput
-                      placeholder="Last Name"
-                      value={lastName}
-                      setValue={setLastName}
-                      type="HALF"
-                    />
-                  </View>
-
-                  <CustomInput
-                    placeholder="Username"
-                    value={username}
-                    setValue={setUsername}
-                  />
-                  <CustomInput
-                    placeholder="email"
-                    value={userEmail}
-                    setValue={setEmail}
-                    editable={false}
-                  />
-                  <View className="flex-row">
-                    <View className="flex-1">
-                      {showPicker && (
-                        <DateTimePicker
-                          mode="date"
-                          display="spinner"
-                          value={date}
-                          onChange={onChange}
-                        />
-                      )}
-                      {/* {Platform.OS === "ios" && (
-                        <View className="flex-row justify-around">
-                          <CustomButton
-                            text="Cancel"
-                            type="TERITARY"
-                            onPress={toggleDatePicker}
-                          />
-                          <CustomButton
-                            text="Confirm"
-                            type="PRIMARY"
-                            onPress={confirmIosDate}
-                          />
-                        </View>
-                      )} */}
-                      <TouchableOpacity
-                        onPress={toggleDatePicker}
-                        onPressIn={toggleDatePicker}
-                      >
-                        <CustomInput
-                          placeholder="Date of Birth"
-                          value={dob}
-                          setValue={setDob}
-                          type="HALF"
-                          editable={false}
-                          onPressIn={toggleDatePicker}
-                        />
-                      </TouchableOpacity>
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+              <View className=" items-start">
+                <Text className="text-[#0d0d0e]  font-bold text-4xl">
+                  Edit your profile
+                </Text>
+              </View>
+              <View className="items-center justify-center bg-slate-300 rounded-full w-[80px] h-[80px] m-auto my-3">
+                <Feather name="user" size={70} color="black" />
+              </View>
+              <View>
+                {userData ? (
+                  <>
+                    <View className="flex-row ">
+                      <CustomInput
+                        placeholder="First Name"
+                        value={firstName}
+                        setValue={setFirstName}
+                        type="HALF"
+                      />
+                      <CustomInput
+                        placeholder="Last Name"
+                        value={lastName}
+                        setValue={setLastName}
+                        type="HALF"
+                      />
                     </View>
+
                     <CustomInput
-                      placeholder="Gender"
-                      value={gender}
-                      setValue={setGender}
-                      type="HALF"
+                      placeholder="Username"
+                      value={username}
+                      setValue={setUsername}
                     />
-                    {/* <View className="flex-1">
+                    <CustomInput
+                      placeholder="email"
+                      value={userEmail}
+                      setValue={setEmail}
+                      editable={false}
+                    />
+                    <View className="flex-row">
+                      <View className="flex-1">
+                        <TouchableOpacity
+                          onPress={toggleDatePicker}
+                          onPressIn={toggleDatePicker}
+                        >
+                          <CustomInput
+                            placeholder="Date of Birth"
+                            value={dob}
+                            setValue={setDob}
+                            type="HALF"
+                            editable={false}
+                            onPressIn={toggleDatePicker}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <CustomInput
+                        placeholder="Gender"
+                        value={gender}
+                        setValue={setGender}
+                        type="HALF"
+                      />
+                      {/* <View className="flex-1">
                       <DropDownPicker
                         open={open}
                         value={value}
@@ -239,16 +222,45 @@ const Profile = ({ navigation }) => {
                         setItems={setItems}
                       />
                     </View> */}
-                  </View>
-                </>
-              ) : (
-                <Loading />
-              )}
-            </View>
+                    </View>
+                  </>
+                ) : (
+                  <Loading />
+                )}
+              </View>
 
-            <View className="justify-center items-center mt-5 mb-5 pt-5">
-              <CustomButton text="Edit" type="PRIMARY" onPress={handleUpdate} />
-            </View>
+              {showPicker && (
+                <DateTimePicker
+                  mode="date"
+                  display="spinner"
+                  value={date}
+                  onChange={onChange}
+                />
+              )}
+              {showPicker && Platform.OS === "ios" && (
+                <View className="flex-row justify-around">
+                  <TouchableOpacity
+                    onPress={toggleDatePicker}
+                    className="rounded-full bg-slate-100 w-[70px] h-5 items-center justify-center"
+                  >
+                    <Text>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={confirmIosDate}
+                    className="rounded-full bg-slate-500 w-[70px] h-5 items-center justify-center"
+                  >
+                    <Text>Confirm</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              <View className="justify-center items-center mt-5 mb-5 pt-5">
+                <CustomButton
+                  text="Edit"
+                  type="PRIMARY"
+                  onPress={handleUpdate}
+                />
+              </View>
+            </KeyboardAvoidingView>
           </ScrollView>
           <BackToLanding
             onPress={() => {

@@ -144,6 +144,7 @@ const SignInScreen = () => {
               placeholder="Email"
               value={username}
               setValue={setUsername}
+              autoCapitalize="none"
             />
             <CustomInput
               placeholder="Password"

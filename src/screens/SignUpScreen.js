@@ -203,6 +203,7 @@ const SignUpScreen = () => {
                         placeholder="Email"
                         value={values.email}
                         setValue={handleChange("email")}
+                        secureTextEntry={true}
                         handleBlur={() => setFieldTouched("email")}
                       />
                       {touched.email && errors.email && (
