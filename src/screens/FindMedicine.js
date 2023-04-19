@@ -28,7 +28,7 @@ import { MultipleSelectList } from "react-native-dropdown-select-list";
 import client from "../../sanity";
 import UserContext from "../context/UserContext";
 
-const MedicineTracker = ({ navigation }) => {
+const FindMedicine = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogoComponent />,
@@ -163,4 +163,4 @@ const MedicineTracker = ({ navigation }) => {
   );
 };
 
-export default MedicineTracker;
+export default FindMedicine;

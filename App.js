@@ -22,6 +22,7 @@ export default function App() {
   const [pickLocationLong, setPickLocationLong] = useState("");
   const [placeId, setPlaceId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isRemindersLoading, setIsRemindersLoading] = useState(true);
 
   // const { user } = useAuth();
 
@@ -46,6 +47,8 @@ export default function App() {
         setIsLoading,
         placeId,
         setPlaceId,
+        isRemindersLoading,
+        setIsRemindersLoading,
       }}
     >
       <NavigationContainer>
