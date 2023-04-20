@@ -117,12 +117,12 @@ const Profile = ({ navigation }) => {
   };
 
   // gender dropdown
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Male", value: "m" },
-    { label: "Female", value: "f" },
-  ]);
+  // const [open, setOpen] = useState(false);
+  // const [value, setValue] = useState(null);
+  // const [items, setItems] = useState([
+  //   { label: "Male", value: "m" },
+  //   { label: "Female", value: "f" },
+  // ]);
 
   const handleUpdate = async () => {
     await updateDoc(doc(db, "users", uid), {
@@ -229,6 +229,7 @@ const Profile = ({ navigation }) => {
                 )}
               </View>
 
+              {/* date time picker */}
               {showPicker && (
                 <DateTimePicker
                   mode="date"
@@ -237,6 +238,7 @@ const Profile = ({ navigation }) => {
                   onChange={onChange}
                 />
               )}
+              {/* ios buttons for confirm and cancel date pick */}
               {showPicker && Platform.OS === "ios" && (
                 <View className="flex-row justify-around">
                   <TouchableOpacity

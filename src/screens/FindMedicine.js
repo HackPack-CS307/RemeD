@@ -120,6 +120,7 @@ const FindMedicine = ({ navigation }) => {
                   fetchDetails={true}
                   onPress={(data, details = null) => {
                     // 'details' is provided when fetchDetails = true
+                    // getting the exact coordinates from north and south coordinates
                     console.log(data, details?.geometry?.viewport);
                     setPlaceId(
                       details?.geometry?.viewport?.southwest?.lat +

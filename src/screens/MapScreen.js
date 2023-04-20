@@ -33,6 +33,7 @@ const MapScreen = ({ navigation, route }) => {
     });
   }, []);
 
+  // getting params from previous screen
   const destinationLat = route?.params?.destinationLat;
   const destinationLong = route?.params?.destinationLong;
   const pharmacy_name = route?.params?.name;

@@ -2,7 +2,11 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ImageBackground } from "react-native";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import {
+  RefreshControl,
+  ScrollView,
+  TextInput,
+} from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import BgImg from "../../assets/images/medtrack.png";
 import BackToLanding from "../components/BackToLanding";
@@ -31,6 +35,7 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 const MedicineTracker = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   const [firstName, setFirstName] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   const { uid, isRemindersLoading, setIsRemindersLoading } =
     useContext(UserContext);
@@ -59,20 +64,19 @@ const MedicineTracker = ({ navigation }) => {
       }
     };
 
-    if (uid) {
-      getUserData();
-    }
+    // if (uid) {
+    //   getUserData();
+    // }
   }, [uid]);
 
-  const q = query(collection(db, "reminders"), where("uid", "==", uid));
-
-  useEffect(() => {
+  useEffect(async () => {
     setIsRemindersLoading(true);
     const getReminders = async () => {
       try {
+        const q = query(collection(db, "reminders"), where("uid", "==", uid));
         const docSnap = await getDocs(q);
         const docCount = await getCountFromServer(q);
-        if (reminders.length < docCount.data().count) {
+        if (reminders.length <= docCount.data().count) {
           docSnap.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             const details = doc.data();
@@ -96,7 +100,7 @@ const MedicineTracker = ({ navigation }) => {
     };
 
     getReminders();
-  }, [uid]);
+  }, []);
 
   // reminder added notification
   const route = useRoute();
@@ -110,6 +114,16 @@ const MedicineTracker = ({ navigation }) => {
       });
     }
   }, [route.params]);
+
+  // refresh after pull down
+  const pullMe = () => {
+    setRefresh(true);
+
+    setTimeout(() => {
+      setRefresh(false);
+      setIsRemindersLoading(true);
+    }, 2000);
+  };
 
   return (
     <>
@@ -128,6 +142,9 @@ const MedicineTracker = ({ navigation }) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             className="p-5 mt-[100px] pt-8"
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
+            }
           >
             {isRemindersLoading ? (
               <Loading />

@@ -39,6 +39,7 @@ const SignUpScreen = () => {
     });
   }, []);
 
+  // form validation scheme
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, "First name is too short!")
@@ -160,6 +161,7 @@ const SignUpScreen = () => {
                     }
                   }}
                 >
+                  {/* innitialising the valdiating form */}
                   {({
                     values,
                     errors,
@@ -203,9 +205,9 @@ const SignUpScreen = () => {
                         placeholder="Email"
                         value={values.email}
                         setValue={handleChange("email")}
-                        secureTextEntry={true}
                         handleBlur={() => setFieldTouched("email")}
                       />
+                      {/* error msgs */}
                       {touched.email && errors.email && (
                         <Text className="text-red-500">{errors.email} </Text>
                       )}
